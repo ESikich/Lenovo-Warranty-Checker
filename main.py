@@ -22,7 +22,6 @@ def trace_calls(func):
         return result
     return wrapper
 
-@trace_calls
 def save_error_to_csv(device_name, error_type):
     with open('errors.csv', mode='a', newline='') as csvfile:
         fieldnames = ['device_name', 'error_type']
@@ -33,7 +32,6 @@ def save_error_to_csv(device_name, error_type):
             'error_type': error_type
         })
 
-@trace_calls
 def get_ip_address(hostname):
     try:
         ip_address = socket.gethostbyname(hostname)
@@ -43,7 +41,6 @@ def get_ip_address(hostname):
         raise
 
 
-@trace_calls
 def is_device_online(ip_address, port=445, timeout=1):
     try:
         with socket.create_connection((ip_address, port), timeout=timeout):
@@ -57,29 +54,24 @@ class WarrantyChecker:
         self.config = config
         self.driver = self.setup_driver()
 
-    @trace_calls
     def setup_driver(self):
         options = Options()
         driver = webdriver.Firefox(options=options, service=FirefoxService(executable_path=self.config['driver_location']))
         return driver
 
-    @trace_calls
     def navigate_to_website(self, url):
         self.driver.get(url)
 
-    @trace_calls
     def submit_serial_number(self, serial_number):
         input_field = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.config['input_xpath'])))
         input_field.clear()
         input_field.send_keys(serial_number)
         input_field.send_keys(Keys.RETURN)
 
-    @trace_calls
     def extract_warranty_info(self):
         warranty_info = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.config['warranty_xpath'])))
         return warranty_info.text
 
-    @trace_calls
     def quit_driver(self):
         self.driver.quit()
 
@@ -94,7 +86,6 @@ class AD:
     def connect(self):
         self.conn = Connection(self.server, self.config['ad_user'], self.config['ad_password'], auto_bind=True, client_strategy=ldap3.RESTARTABLE)
 
-    @trace_calls
     def close_connection(self):
         if self.conn:
             self.conn.unbind()
@@ -148,7 +139,6 @@ def get_warranty_info(config, device_name, ip_address, serial_number):
 
     save_to_csv(device_name, ip_address, serial_number, warranty_info)
 
-@trace_calls
 def save_to_csv(device_name, ip_address, serial_number, warranty_info):
     with open('warranty_info.csv', mode='a', newline='') as csvfile:
         fieldnames = ['device_name', 'ip_address', 'serial_number', 'warranty_info']
@@ -161,14 +151,12 @@ def save_to_csv(device_name, ip_address, serial_number, warranty_info):
             'warranty_info': warranty_info
         })
 
-@trace_calls
 def close_connections(ad, warranty_checker=None):
     if ad:
         ad.close_connection()
     if warranty_checker:
         warranty_checker.quit_driver()
 
-@trace_calls
 def main():
     with open('config.json') as f:
         config = json.load(f)
