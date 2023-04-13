@@ -13,7 +13,7 @@ You will also need the appropriate driver for Selenium to use with your preferre
 
 ## Configuration
 
-You will need to create a `config.json` file with the following format:
+You will need to edit the `config.json` file:
 
 ```json
 {
@@ -24,9 +24,6 @@ You will need to create a `config.json` file with the following format:
     "wmi_user": "your_wmi_username",
     "wmi_password": "your_wmi_password",
     "driver_location": "path_to_your_browser_driver",
-    "web_url": "url_of_manufacturer_warranty_check",
-    "input_xpath": "xpath_of_input_field_on_warranty_website",
-    "warranty_xpath": "xpath_of_warranty_info_on_warranty_website"
 }
 ```
 
