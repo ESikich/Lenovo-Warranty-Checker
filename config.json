@@ -1,10 +1,10 @@
 {
-    "ldap_server": "ldap://your_ldap_address,
+    "ldap_server": "ldap://your_ldap_address",
     "ad_user": "CN=Your User,OU=Your OU,DC=Your Domain,DC=local",
-    "ad_password": "your_ad_password,
+    "ad_password": "your_ad_password",
     "search_base": "OU=Workstations,OU=Devices,DC=Your Domain,DC=local",
     "wmi_user": "your_wmiuser",
-    "wmi_password": "your_wmi_password,
+    "wmi_password": "your_wmi_password",
     "driver_location": "browser_driver_location",
     "web_url": "https://pcsupport.lenovo.com/us/en/warrantylookup#/",
     "input_xpath": "/html/body/div[1]/section[2]/div/div[2]/div[1]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/input",
