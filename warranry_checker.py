@@ -63,16 +63,13 @@ class WarrantyChecker:
         driver.quit()
         return (dev_name, ip_addr, serial_number, warranty_info)
 
-
     def proc_pool(self):
         devs = []
         for dev_name, ip_addr in self.dev_pool:
             devs.append((dev_name, ip_addr, self.config['wmi_user'], self.config['wmi_password']))
 
-        serial_numbers = []
-        for device_info in tqdm(devs, desc='Getting serial numbers'):
-            serial_number = self.get_serial(device_info)
-            serial_numbers.append(serial_number)
+        # Use process_map() to get the serial numbers in parallel
+        serial_numbers = process_map(self.get_serial, devs, desc='Getting serial numbers', max_workers=4)
 
         pared_down_dev_pool = []
         for device_info, serial_number in zip(devs, serial_numbers):
@@ -85,20 +82,3 @@ class WarrantyChecker:
 
         if pared_down_dev_pool:
             self.driver = self.setup()
-            for dev_name, ip_addr, serial_number in tqdm(pared_down_dev_pool, desc='Checking warranty info'):
-                warranty_info = self.get_warranty((dev_name, ip_addr, serial_number, self.config))
-                CSVHandler.save_csv(dev_name, ip_addr, serial_number, warranty_info)
-            self.driver.quit()
-
-def process_entry(entry, config):
-    comp_name = entry['name'].value
-    if CSVHandler.in_csv(comp_name):
-        return None
-    try:
-        ip_addr = NetUtil.get_ip(str(comp_name))
-    except Exception as e:
-        CSVHandler.err_csv(comp_name, 'DNS Error')
-        return None
-    if NetUtil.ping(ip_addr):
-        return (comp_name, ip_addr)
-    return None
