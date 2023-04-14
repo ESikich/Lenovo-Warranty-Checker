@@ -30,16 +30,19 @@ class CSVHandler:
                 })
 
     @staticmethod
-    def save_csv(dev_name, ip_addr, serial_num, warranty, fname='warranty_info.csv'):
+    def save_csv(warranty, fname='warranty_info.csv'):
         with open(fname, mode='a', newline='') as csvfile:
             fn = ['device_name', 'ip_address', 'serial_number', 'warranty_info']
             writer = csv.DictWriter(csvfile, fieldnames=fn)
+
+            # Unpack the necessary values from the warranty tuple
+            dev_name, ip_addr, serial_num, warranty_date = warranty
 
             writer.writerow({
                 'device_name': dev_name,
                 'ip_address': ip_addr,
                 'serial_number': serial_num,
-                'warranty_info': warranty
+                'warranty_info': warranty_date
             })
 
     @staticmethod
