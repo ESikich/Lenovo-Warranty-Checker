@@ -2,6 +2,15 @@
 
 Warranty Checker is a Python-based tool designed to retrieve the warranty information for devices in an Active Directory domain. It does this by first retrieving the serial number of each device using WinRM and then uses Selenium to scrape the warranty information from the device manufacturer's website. The results are then saved to a CSV file for future reference.
 
+## Dependencies
+
+This tool requires the following Python libraries:
+
+- `ldap3`
+- `winrm`
+- `Selenium`
+- `tqdm`
+
 ## Files
 
 ### ad.py
@@ -64,16 +73,3 @@ If you continue to have issues, please consult the documentation for each librar
 - [multiprocessing](https://docs.python.org/3/library/multiprocessing.html)
 
 If you are still unable to resolve the issue, please open an issue on the GitHub repository for this tool. We will do our best to help you resolve the issue as soon as possible.
-
-## Dependencies
-
-This tool requires the following Python libraries:
-
-- `ldap3`
-- `winrm`
-- `Selenium`
-- `tqdm`
-
-## Conclusion
-
-Warranty Checker is a powerful tool for retrieving warranty information for devices in an Active Directory domain. It uses WinRM and Selenium to quickly and easily retrieve the necessary information and save it to a CSV file for future reference. The tool is highly customizable, allowing you to configure the necessary options to fit your needs. If you have any questions or issues, please don't hesitate to reach out to us on the GitHub repository.
