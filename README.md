@@ -1,31 +1,20 @@
 # Warranty Checker
 
-This project is designed to check the warranty status of devices in an Active Directory domain. It uses WinRM to retrieve the serial number of each device and then uses Selenium to scrape the warranty information from the device manufacturer's website. The results are saved to a CSV file for future reference.
-
-## Dependencies
-
-This project requires Python 3.7 or later and the following libraries:
-
-- ldap3
-- selenium
-- tqdm
-- winrm
-
-The `tqdm.contrib.concurrent` and `tqdm.contrib.concurrent.process_map` libraries are also used to enable parallel processing.
+Warranty Checker is a Python-based tool designed to retrieve the warranty information for devices in an Active Directory domain. It does this by first retrieving the serial number of each device using WinRM and then uses Selenium to scrape the warranty information from the device manufacturer's website. The results are then saved to a CSV file for future reference.
 
 ## Files
 
 ### ad.py
 
-This file contains the `AD` class, which is responsible for connecting to the Active Directory domain and retrieving a list of devices. The `get_dev_pool` method uses `process_map` to retrieve the list of devices in parallel. Each device is processed by the `process_entry` function in `warranty_checker.py`.
+The `AD` class in this file is responsible for connecting to the Active Directory domain and retrieving a list of devices. The `get_dev_pool` method uses `process_map` to retrieve the list of devices in parallel. Each device is processed by the `process_entry` function in `warranty_checker.py`. The `AD` class uses the `ldap3` library to connect to the Active Directory domain and retrieve device information.
 
 ### csv_handler.py
 
-This file contains the `CSVHandler` class, which is responsible for reading from and writing to the CSV files. It also contains a `create` method that creates the CSV files if they don't already exist.
+This file contains the `CSVHandler` class, which is responsible for reading from and writing to the CSV files. The `in_csv`, `save_csv`, and `err_csv` methods are used to read and write data to the `warranty_info.csv` and `errors.csv` files. The `create` method is used to create the CSV files if they don't already exist.
 
 ### warranty_checker.py
 
-This file contains the `WarrantyChecker` class, which is responsible for retrieving the serial number and warranty information for each device. The `setup` method initializes the Firefox driver with a headless option, and the `get_serial` and `get_warranty` methods use WinRM and Selenium, respectively, to retrieve the necessary information. The `proc_pool` method uses `tqdm` to display progress bars while processing each device.
+This file contains the `WarrantyChecker` class, which is responsible for retrieving the serial number and warranty information for each device. The `setup` method initializes the Firefox driver with a headless option, and the `get_serial` and `get_warranty` methods use WinRM and Selenium, respectively, to retrieve the necessary information. The `proc_pool` method uses `tqdm` to display progress bars while processing each device. The `WarrantyChecker` class uses the `winrm` library to connect to devices using WinRM.
 
 ### main.py
 
@@ -33,7 +22,7 @@ This file is the entry point for the application. It reads the configuration fil
 
 ## Configuration
 
-The configuration file (`config.json`) contains the following options:
+The `config.json` file contains the following options:
 
 - `ldap_server`: The hostname or IP address of the Active Directory server.
 - `search_base`: The LDAP search base for the device search.
@@ -48,13 +37,13 @@ The configuration file (`config.json`) contains the following options:
 
 ## Usage
 
-To use this tool, first ensure that all dependencies are installed. Then, create a `config.json` file in the project root directory with the necessary configuration options. Finally, run the following command:
+To use Warranty Checker, first ensure that all dependencies are installed. Then, create a `config.json` file in the project root directory with the necessary configuration options. Finally, run the following command:
 
 ```
 python main.py
 ```
 
-This will retrieve the list of devices from Active Directory, process each device, and save the results to the CSV files.
+This will retrieve the list of devices from Active Directory, process each device, and save the results to the CSV files. The tool uses parallel processing to speed up the process of retrieving warranty information.
 
 ## Troubleshooting
 
@@ -64,5 +53,27 @@ If you encounter any issues with this tool, try the following:
 - Ensure that the `config.json` file contains the correct options.
 - Ensure that the Firefox driver executable is installed in the correct location.
 - Ensure that the `wmi_user` and `wmi_password` options in `config.json` are correct.
-- Check the `errors.csv` file for any errors that may have occurred during processing.
-- If you encounter any other issues, feel free to contact the project maintainers.
+- Check the log files (`warranty_info.csv` and `errors.csv`) for any issues.
+
+If you continue to have issues, please consult the documentation for each library used in this tool:
+
+- [ldap3](https://ldap3.readthedocs.io/)
+- [winrm](https://github.com/diyan/pywinrm)
+- [Selenium](https://selenium-python.readthedocs.io/)
+- [tqdm](https://tqdm.github.io/)
+- [multiprocessing](https://docs.python.org/3/library/multiprocessing.html)
+
+If you are still unable to resolve the issue, please open an issue on the GitHub repository for this tool. We will do our best to help you resolve the issue as soon as possible.
+
+## Dependencies
+
+This tool requires the following Python libraries:
+
+- `ldap3`
+- `winrm`
+- `Selenium`
+- `tqdm`
+
+## Conclusion
+
+Warranty Checker is a powerful tool for retrieving warranty information for devices in an Active Directory domain. It uses WinRM and Selenium to quickly and easily retrieve the necessary information and save it to a CSV file for future reference. The tool is highly customizable, allowing you to configure the necessary options to fit your needs. If you have any questions or issues, please don't hesitate to reach out to us on the GitHub repository.
