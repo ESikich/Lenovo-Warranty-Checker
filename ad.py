@@ -20,7 +20,7 @@ class AD:
     def get_dev_pool(self):
         self.conn.search(search_base=self.config['search_base'], search_filter='(objectClass=computer)', attributes=['name'], search_scope=SUBTREE)
 
-        results = process_map(process_entry, self.conn.entries, [self.config] * len(self.conn.entries), max_workers=mp.cpu_count(), desc='Processing device pool')
+        results = process_map(process_entry, self.conn.entries, [self.config] * len(self.conn.entries), max_workers=mp.cpu_count(), desc='Looking for workstations')
 
         dev_pool = []
         for result in results:
