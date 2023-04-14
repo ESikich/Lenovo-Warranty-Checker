@@ -49,7 +49,7 @@ The `config.json` file contains the following options:
 To use Warranty Checker, first ensure that all dependencies are installed. Then, create a `config.json` file in the project root directory with the necessary configuration options. Finally, run the following command:
 
 ```
-python main.py
+python3 main.py
 ```
 
 This will retrieve the list of devices from Active Directory, process each device, and save the results to the CSV files. The tool uses parallel processing to speed up the process of retrieving warranty information.
