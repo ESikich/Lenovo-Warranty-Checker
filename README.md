@@ -72,4 +72,4 @@ If you continue to have issues, please consult the documentation for each librar
 - [tqdm](https://tqdm.github.io/)
 - [multiprocessing](https://docs.python.org/3/library/multiprocessing.html)
 
-If you are still unable to resolve the issue, please open an issue on the GitHub repository for this tool. We will do our best to help you resolve the issue as soon as possible.
+If you are still unable to resolve the issue, please open an issue.
